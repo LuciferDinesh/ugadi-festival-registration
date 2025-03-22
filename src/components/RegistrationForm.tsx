@@ -17,10 +17,17 @@ import { submitToGoogleSheets, RegistrationFormData } from '@/utils/formSubmissi
 
 const events: EventType[] = [
   {
-    id: 'tug-of-war',
+    id: 'tug-of-war-male',
     name: 'Tug of War',
     description: 'A team sport that pits two teams against each other in a test of strength.',
     forGender: 'male',
+    icon: 'tug-of-war',
+  },
+  {
+    id: 'tug-of-war-female',
+    name: 'Tug of War',
+    description: 'A team sport that pits two teams against each other in a test of strength.',
+    forGender: 'female',
     icon: 'tug-of-war',
   },
   {
@@ -367,7 +374,7 @@ const RegistrationForm: React.FC = () => {
                       name="eventId"
                       render={() => (
                         <FormItem>
-                          <div className="grid grid-cols-1 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {filteredEvents.length > 0 ? (
                               filteredEvents.map((event) => (
                                 <EventCard

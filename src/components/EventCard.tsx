@@ -7,7 +7,7 @@ export interface EventType {
   id: string;
   name: string;
   description: string;
-  forGender: 'male' | 'female';
+  forGender: 'male' | 'female' | 'both';
   icon: 'tug-of-war' | 'rangoli';
 }
 
@@ -24,7 +24,13 @@ const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect }) =>
       : 'glass border border-white/30 hover:border-festival-blue/50'
   }`;
 
-  const iconColor = event.forGender === 'male' ? 'text-festival-blue' : 'text-festival-red';
+  const getIconColor = () => {
+    if (event.forGender === 'male') return 'text-festival-blue';
+    if (event.forGender === 'female') return 'text-festival-red';
+    return 'text-festival-green'; // For 'both' gender
+  };
+  
+  const iconColor = getIconColor();
   
   return (
     <motion.div
@@ -56,9 +62,11 @@ const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect }) =>
         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
           event.forGender === 'male' 
             ? 'bg-blue-100 text-blue-800' 
-            : 'bg-red-100 text-red-800'
+            : event.forGender === 'female'
+              ? 'bg-red-100 text-red-800'
+              : 'bg-green-100 text-green-800'  // For 'both' gender
         }`}>
-          For {event.forGender === 'male' ? 'Males' : 'Females'}
+          For {event.forGender === 'male' ? 'Males' : event.forGender === 'female' ? 'Females' : 'All Students'}
         </span>
       </div>
     </motion.div>
