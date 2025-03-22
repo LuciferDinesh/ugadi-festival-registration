@@ -9,6 +9,8 @@ export interface RegistrationFormData {
   gender: 'male' | 'female';
   eventId: string;
   eventName: string;
+  multipleEvents?: boolean;
+  allEventNames?: string[];
 }
 
 // This is a helper function to handle the form submission to Google Sheets
@@ -50,7 +52,7 @@ export const submitToGoogleSheets = async (data: RegistrationFormData): Promise<
 // Instructions for setting up Google Sheets integration:
 /*
 1. Create a Google Sheet with columns matching your form fields
-   (name, email, phone, studentId, department, year, gender, eventId, eventName)
+   (name, email, phone, studentId, department, year, gender, eventId, eventName, multipleEvents)
 2. Open the Script Editor (Extensions > Apps Script)
 3. Paste the following code in the Script Editor:
 
@@ -72,7 +74,8 @@ function doPost(e) {
     data.year,
     data.gender,
     data.eventId,
-    data.eventName
+    data.eventName,
+    data.multipleEvents ? "Yes" : "No"
   ]);
   
   return ContentService.createTextOutput(JSON.stringify({ success: true }))

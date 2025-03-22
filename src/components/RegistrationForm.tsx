@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -39,6 +38,7 @@ const events: EventType[] = [
   },
 ];
 
+// Update the form schema to support multiple events for female participants
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -47,7 +47,7 @@ const formSchema = z.object({
   department: z.string().min(1, { message: 'Please select your department.' }),
   year: z.string().min(1, { message: 'Please select your year of study.' }),
   gender: z.enum(['male', 'female'], { required_error: 'Please select your gender.' }),
-  eventId: z.string().min(1, { message: 'Please select an event.' }),
+  eventIds: z.array(z.string()).min(1, { message: 'Please select at least one event.' }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -66,52 +66,120 @@ const RegistrationForm: React.FC = () => {
       department: '',
       year: '',
       gender: undefined,
-      eventId: '',
+      eventIds: [],
     },
   });
   
   const gender = form.watch('gender');
-  const selectedEventId = form.watch('eventId');
+  const selectedEventIds = form.watch('eventIds');
   
   // Filter events based on selected gender
-  const filteredEvents = gender ? events.filter(event => event.forGender === gender) : [];
+  const filteredEvents = gender ? events.filter(event => event.forGender === gender || event.forGender === 'both') : [];
+  
+  // Check if multiple event selection is allowed (only for female participants)
+  const allowMultipleEvents = gender === 'female';
+  
+  // Handle event selection
+  const handleEventSelection = (eventId: string) => {
+    const currentEvents = form.getValues('eventIds');
+    
+    if (allowMultipleEvents) {
+      // For females: toggle selection
+      if (currentEvents.includes(eventId)) {
+        form.setValue('eventIds', currentEvents.filter(id => id !== eventId));
+      } else {
+        form.setValue('eventIds', [...currentEvents, eventId]);
+      }
+    } else {
+      // For males: only one selection allowed
+      form.setValue('eventIds', [eventId]);
+    }
+  };
   
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     
     try {
-      const selectedEvent = events.find(e => e.id === data.eventId);
-      
-      if (!selectedEvent) {
-        toast.error('Please select an event');
+      if (data.eventIds.length === 0) {
+        toast.error('Please select at least one event');
         setIsSubmitting(false);
         return;
       }
       
-      const formData: RegistrationFormData = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        studentId: data.studentId,
-        department: data.department,
-        year: data.year,
-        gender: data.gender,
-        eventId: data.eventId,
-        eventName: selectedEvent.name,
-      };
-      
-      const success = await submitToGoogleSheets(formData);
-      
-      if (success) {
-        toast.success('Registration successful!', {
-          description: 'Your registration has been submitted.'
-        });
-        navigate('/success', { state: { name: data.name, event: selectedEvent.name } });
-      } else {
-        toast.error('Registration failed', {
-          description: 'There was an error submitting your registration. Please try again.'
-        });
-        setIsSubmitting(false);
+      // For single event registration
+      if (data.eventIds.length === 1) {
+        const eventId = data.eventIds[0];
+        const selectedEvent = events.find(e => e.id === eventId);
+        
+        if (!selectedEvent) {
+          toast.error('Invalid event selected');
+          setIsSubmitting(false);
+          return;
+        }
+        
+        const formData: RegistrationFormData = {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          studentId: data.studentId,
+          department: data.department,
+          year: data.year,
+          gender: data.gender,
+          eventId: eventId,
+          eventName: selectedEvent.name,
+          multipleEvents: false,
+          allEventNames: [selectedEvent.name],
+        };
+        
+        const success = await submitToGoogleSheets(formData);
+        
+        if (success) {
+          toast.success('Registration successful!', {
+            description: 'Your registration has been submitted.'
+          });
+          navigate('/success', { state: { name: data.name, event: selectedEvent.name } });
+        } else {
+          toast.error('Registration failed', {
+            description: 'There was an error submitting your registration. Please try again.'
+          });
+          setIsSubmitting(false);
+        }
+      } 
+      // For multiple event registration (females only)
+      else {
+        const selectedEvents = events.filter(e => data.eventIds.includes(e.id));
+        const eventNames = selectedEvents.map(e => e.name);
+        
+        // Create a consolidated event name
+        const eventName = eventNames.join(' and ');
+        
+        const formData: RegistrationFormData = {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          studentId: data.studentId,
+          department: data.department,
+          year: data.year,
+          gender: data.gender,
+          eventId: data.eventIds.join(','), // Join all event IDs with comma
+          eventName: eventName,
+          multipleEvents: true,
+          allEventNames: eventNames,
+        };
+        
+        const success = await submitToGoogleSheets(formData);
+        
+        if (success) {
+          toast.success('Registration successful!', {
+            description: 'Your registration has been submitted for multiple events.'
+          });
+          navigate('/success', { state: { name: data.name, event: eventName } });
+        } else {
+          toast.error('Registration failed', {
+            description: 'There was an error submitting your registration. Please try again.'
+          });
+          setIsSubmitting(false);
+        }
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -122,9 +190,9 @@ const RegistrationForm: React.FC = () => {
     }
   };
 
-  // When gender changes, clear the selected event
+  // When gender changes, clear the selected events
   React.useEffect(() => {
-    form.setValue('eventId', '');
+    form.setValue('eventIds', []);
   }, [gender, form]);
 
   return (
@@ -364,14 +432,20 @@ const RegistrationForm: React.FC = () => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <h3 className="text-lg font-semibold mb-4 flex items-center">
+                    <h3 className="text-lg font-semibold mb-2 flex items-center">
                       <CalendarIcon className="w-5 h-5 mr-2 text-green-500" />
                       Select Your Event
                     </h3>
                     
+                    {allowMultipleEvents && (
+                      <p className="text-sm text-amber-600 mb-4 italic">
+                        As a female participant, you can select multiple events to participate in!
+                      </p>
+                    )}
+                    
                     <FormField
                       control={form.control}
-                      name="eventId"
+                      name="eventIds"
                       render={() => (
                         <FormItem>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -380,8 +454,9 @@ const RegistrationForm: React.FC = () => {
                                 <EventCard
                                   key={event.id}
                                   event={event}
-                                  isSelected={selectedEventId === event.id}
-                                  onSelect={() => form.setValue('eventId', event.id)}
+                                  isSelected={selectedEventIds.includes(event.id)}
+                                  onSelect={() => handleEventSelection(event.id)}
+                                  multipleAllowed={allowMultipleEvents}
                                 />
                               ))
                             ) : (

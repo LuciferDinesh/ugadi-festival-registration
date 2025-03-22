@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, PaintBucket } from 'lucide-react';
+import { Users, PaintBucket, Check } from 'lucide-react';
 
 export interface EventType {
   id: string;
@@ -15,9 +15,10 @@ interface EventCardProps {
   event: EventType;
   isSelected: boolean;
   onSelect: () => void;
+  multipleAllowed?: boolean;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect }) => {
+const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect, multipleAllowed = false }) => {
   const cardClasses = `relative flex flex-col p-6 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer card-hover ${
     isSelected
       ? 'glass border-2 border-festival-blue shadow-lg shadow-blue-500/20'
@@ -41,7 +42,8 @@ const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect }) =>
       onClick={onSelect}
     >
       {isSelected && (
-        <div className="absolute top-3 right-3 w-3 h-3 bg-festival-blue rounded-full">
+        <div className="absolute top-3 right-3 w-6 h-6 bg-festival-blue rounded-full flex items-center justify-center">
+          <Check className="w-4 h-4 text-white" />
           <span className="absolute inset-0 rounded-full animate-ping bg-festival-blue/70"></span>
         </div>
       )}
@@ -69,6 +71,12 @@ const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect }) =>
           For {event.forGender === 'male' ? 'Males' : event.forGender === 'female' ? 'Females' : 'All Students'}
         </span>
       </div>
+
+      {multipleAllowed && (
+        <div className="w-full text-center mt-2 text-xs text-gray-500">
+          {isSelected ? "Click to deselect" : "Click to select"}
+        </div>
+      )}
     </motion.div>
   );
 };
