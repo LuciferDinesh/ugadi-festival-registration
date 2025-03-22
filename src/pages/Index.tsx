@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { CalendarDays, MapPin, School, Trophy } from 'lucide-react';
+import { CalendarDays, MapPin, School, Trophy, Flower, Sun, PartyPopper } from 'lucide-react';
 import Hero from '@/components/Hero';
 import RegistrationForm from '@/components/RegistrationForm';
 
@@ -16,6 +16,101 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <Hero onRegisterClick={scrollToForm} />
+      
+      {/* Ugadi Banner */}
+      <section className="py-8 bg-gradient-to-r from-yellow-100 to-yellow-200 relative overflow-hidden">
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+            className="absolute top-10 left-10 text-yellow-600"
+          >
+            <Flower className="w-12 h-12" />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, repeat: Infinity, repeatType: "reverse", delay: 0.5 }}
+            className="absolute top-5 right-20 text-orange-500"
+          >
+            <Sun className="w-10 h-10" />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.7, repeat: Infinity, repeatType: "reverse", delay: 0.7 }}
+            className="absolute bottom-5 left-32 text-green-600"
+          >
+            <Flower className="w-8 h-8" />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.3, repeat: Infinity, repeatType: "reverse", delay: 0.2 }}
+            className="absolute bottom-8 right-16 text-red-500"
+          >
+            <PartyPopper className="w-9 h-9" />
+          </motion.div>
+          
+          <motion.h2 
+            initial={{ y: -20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-2xl md:text-3xl font-bold text-orange-800"
+          >
+            Celebrating New Beginnings
+          </motion.h2>
+          
+          <motion.p 
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-2 text-lg text-orange-700"
+          >
+            Ugadi marks the beginning of the Telugu New Year with festivity, food, and new hopes
+          </motion.p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+            {[
+              { icon: <Flower className="w-6 h-6" />, label: "Decorative Rangoli" },
+              { icon: <Sun className="w-6 h-6" />, label: "New Beginnings" },
+              { icon: <PartyPopper className="w-6 h-6" />, label: "Celebrations" },
+              { icon: <CalendarDays className="w-6 h-6" />, label: "Telugu New Year" },
+            ].map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ y: 30, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="flex flex-col items-center"
+              >
+                <div className="p-3 bg-white rounded-full shadow-md mb-2 text-orange-600">
+                  {item.icon}
+                </div>
+                <p className="text-sm font-medium text-orange-800">{item.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Decorative elements */}
+        <motion.div 
+          initial={{ rotate: 0 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="absolute -right-28 -top-28 w-56 h-56 rounded-full border-8 border-dashed border-yellow-400 opacity-20"
+        />
+        <motion.div 
+          initial={{ rotate: 0 }}
+          animate={{ rotate: -360 }}
+          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+          className="absolute -left-28 -bottom-28 w-56 h-56 rounded-full border-8 border-dashed border-orange-400 opacity-20"
+        />
+      </section>
       
       {/* Event Info Section */}
       <section className="py-16 bg-white relative overflow-hidden">
@@ -76,6 +171,77 @@ const Index = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+      
+      {/* Traditional Ugadi Section */}
+      <section className="py-12 bg-gradient-to-r from-yellow-50 to-orange-50 relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <motion.h2 
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="text-2xl md:text-3xl font-bold text-orange-800 mb-3"
+            >
+              Traditional Ugadi Celebration
+            </motion.h2>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="w-20 h-1 bg-orange-500 mx-auto mb-4"
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Ugadi Pachadi",
+                description: "A special mixture of six tastes symbolizing the different emotions of life",
+                color: "from-yellow-400 to-yellow-300"
+              },
+              {
+                title: "Mango Leaves",
+                description: "Homes are decorated with mango leaves symbolizing prosperity",
+                color: "from-green-500 to-green-400"
+              },
+              {
+                title: "New Clothes",
+                description: "People wear new clothes and exchange gifts to welcome the new year",
+                color: "from-orange-500 to-orange-400"
+              }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="rounded-lg overflow-hidden shadow-md"
+              >
+                <div className={`h-3 bg-gradient-to-r ${item.color}`}></div>
+                <div className="p-6 bg-white">
+                  <h3 className="text-lg font-semibold mb-2 text-gray-800">{item.title}</h3>
+                  <p className="text-gray-600">{item.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.1, 1],
+              rotate: [0, 5, 0]
+            }}
+            transition={{ duration: 8, repeat: Infinity }}
+            className="w-full h-full border-8 border-orange-500 rounded-full"
+          />
         </div>
       </section>
       
