@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Scissors, Paintbrush, Utensils, Calendar, CheckCircle2 } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 export interface EventType {
   id: string;
@@ -9,7 +9,7 @@ export interface EventType {
   description: string;
   date: string;
   time: string;
-  icon: 'braid' | 'mehandi' | 'anthakshari' | 'food' | 'rangoli';
+  imageUrl: string;
   googleFormLink: string;
 }
 
@@ -20,23 +20,6 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ event, onRegisterClick }) => {
   const cardClasses = "relative flex flex-col p-6 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer card-hover glass border border-white/30 hover:border-festival-pink/50";
-
-  const getEventIcon = () => {
-    switch(event.icon) {
-      case 'braid':
-        return <Scissors className="w-10 h-10" />;
-      case 'mehandi':
-        return <Paintbrush className="w-10 h-10" />;
-      case 'anthakshari':
-        return <CheckCircle2 className="w-10 h-10" />;
-      case 'food':
-        return <Utensils className="w-10 h-10" />;
-      case 'rangoli':
-        return <Paintbrush className="w-10 h-10" />;
-      default:
-        return <Calendar className="w-10 h-10" />;
-    }
-  };
   
   return (
     <motion.div
@@ -45,8 +28,12 @@ const EventCard: React.FC<EventCardProps> = ({ event, onRegisterClick }) => {
       whileHover={{ y: -4 }}
       className={cardClasses}
     >
-      <div className="mb-4 text-3xl text-festival-pink">
-        {getEventIcon()}
+      <div className="mb-4 h-40 w-full overflow-hidden rounded-lg">
+        <img 
+          src={event.imageUrl} 
+          alt={event.name} 
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+        />
       </div>
       
       <h3 className="text-xl font-semibold mb-2">{event.name}</h3>

@@ -1,0 +1,9 @@
+
+Add the following images to this directory:
+- braid.jpg - An image of creative braided hairstyles
+- mehandi.jpg - An image of beautiful henna/mehandi designs on hands
+- anthakshari.jpg - An image related to music or singing competition
+- food.jpg - An image of traditional food dishes
+- rangoli.jpg - An image of colorful rangoli designs
+
+These images should be properly sized (ideally around 800x600 pixels) and optimized for web.

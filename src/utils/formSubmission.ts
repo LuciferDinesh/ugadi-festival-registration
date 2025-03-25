@@ -17,8 +17,8 @@ export const eventsList = [
     description: 'Show your hairstyling skills with creative and beautiful braids.',
     date: '26-03-2025',
     time: '2:00 pm',
-    icon: 'braid',
-    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_BRAID/viewform'
+    imageUrl: '/images/braid.jpg', // You'll need to add these images to your public/images folder
+    googleFormLink: 'GOOGLE_FORM_LINK_FOR_BRAID' // Replace this with your actual Google Form link
   },
   {
     id: 'mehandi',
@@ -26,8 +26,8 @@ export const eventsList = [
     description: 'Create stunning henna designs showcasing traditional art.',
     date: '26-03-2025',
     time: '3:00 pm',
-    icon: 'mehandi',
-    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_MEHANDI/viewform'
+    imageUrl: '/images/mehandi.jpg',
+    googleFormLink: 'GOOGLE_FORM_LINK_FOR_MEHANDI' // Replace this with your actual Google Form link
   },
   {
     id: 'anthakshari',
@@ -35,8 +35,8 @@ export const eventsList = [
     description: 'Musical competition based on songs and lyrics.',
     date: '27-03-2025',
     time: '2:00 pm',
-    icon: 'anthakshari',
-    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_ANTHAKSHARI/viewform'
+    imageUrl: '/images/anthakshari.jpg',
+    googleFormLink: 'GOOGLE_FORM_LINK_FOR_ANTHAKSHARI' // Replace this with your actual Google Form link
   },
   {
     id: 'food',
@@ -44,8 +44,8 @@ export const eventsList = [
     description: 'Prepare and present your best traditional dishes.',
     date: '28-03-2025',
     time: '10:00 am',
-    icon: 'food',
-    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_FOOD/viewform'
+    imageUrl: '/images/food.jpg',
+    googleFormLink: 'GOOGLE_FORM_LINK_FOR_FOOD' // Replace this with your actual Google Form link
   },
   {
     id: 'rangoli',
@@ -53,8 +53,8 @@ export const eventsList = [
     description: 'Showcase your artistic skills with traditional colorful designs.',
     date: '28-03-2025',
     time: '2:00 pm',
-    icon: 'rangoli',
-    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_RANGOLI/viewform'
+    imageUrl: '/images/rangoli.jpg',
+    googleFormLink: 'GOOGLE_FORM_LINK_FOR_RANGOLI' // Replace this with your actual Google Form link
   }
 ];
 

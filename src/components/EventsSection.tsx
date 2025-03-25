@@ -12,7 +12,7 @@ const EventsSection: React.FC = () => {
     if (!acc[event.date]) {
       acc[event.date] = [];
     }
-    acc[event.date].push(event);
+    acc[event.date].push(event as EventType);
     return acc;
   }, {} as Record<string, EventType[]>);
 
