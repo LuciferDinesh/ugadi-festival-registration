@@ -1,91 +1,69 @@
 
-export interface RegistrationFormData {
-  name: string;
-  email: string;
-  phone: string;
-  studentId: string;
-  department: string;
-  year: string;
-  gender: 'male' | 'female';
+// A utility file to handle registration for events
+
+export interface EventRegistration {
   eventId: string;
   eventName: string;
-  multipleEvents?: boolean;
-  allEventNames?: string[];
+  date: string;
+  time: string;
+  googleFormLink: string;
 }
 
-// This is a helper function to handle the form submission to Google Sheets
-export const submitToGoogleSheets = async (data: RegistrationFormData): Promise<boolean> => {
-  try {
-    console.log('Submitting registration data:', data);
-    
-    // Replace with your Google Apps Script Web App URL
-    const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL';
-    
-    // Simulate API call in development - in production, uncomment the fetch code below
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // In production, uncomment the code below and replace the URL with your deployed Google Apps Script Web App URL
-    /*
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to submit form');
-    }
-    
-    const result = await response.json();
-    return result.success;
-    */
-    
-    return true;
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    return false;
+// List of all events based on the circular
+export const eventsList = [
+  {
+    id: 'braid',
+    name: 'Braid (Hairstyle)',
+    description: 'Show your hairstyling skills with creative and beautiful braids.',
+    date: '26-03-2025',
+    time: '2:00 pm',
+    icon: 'braid',
+    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_BRAID/viewform'
+  },
+  {
+    id: 'mehandi',
+    name: 'Mehandi',
+    description: 'Create stunning henna designs showcasing traditional art.',
+    date: '26-03-2025',
+    time: '3:00 pm',
+    icon: 'mehandi',
+    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_MEHANDI/viewform'
+  },
+  {
+    id: 'anthakshari',
+    name: 'Anthakshari',
+    description: 'Musical competition based on songs and lyrics.',
+    date: '27-03-2025',
+    time: '2:00 pm',
+    icon: 'anthakshari',
+    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_ANTHAKSHARI/viewform'
+  },
+  {
+    id: 'food',
+    name: 'Traditional Food Competition',
+    description: 'Prepare and present your best traditional dishes.',
+    date: '28-03-2025',
+    time: '10:00 am',
+    icon: 'food',
+    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_FOOD/viewform'
+  },
+  {
+    id: 'rangoli',
+    name: 'Rangoli',
+    description: 'Showcase your artistic skills with traditional colorful designs.',
+    date: '28-03-2025',
+    time: '2:00 pm',
+    icon: 'rangoli',
+    googleFormLink: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID_FOR_RANGOLI/viewform'
   }
+];
+
+// Function to redirect to Google Form
+export const redirectToGoogleForm = (googleFormLink: string): void => {
+  window.open(googleFormLink, '_blank');
 };
 
-// Instructions for setting up Google Sheets integration:
-/*
-1. Create a Google Sheet with columns matching your form fields
-   (name, email, phone, studentId, department, year, gender, eventId, eventName, multipleEvents)
-2. Open the Script Editor (Extensions > Apps Script)
-3. Paste the following code in the Script Editor:
-
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var data = JSON.parse(e.postData.contents);
-  
-  // Add timestamp
-  var timestamp = new Date();
-  
-  // Append row to sheet with all form fields
-  sheet.appendRow([
-    timestamp,
-    data.name,
-    data.email,
-    data.phone,
-    data.studentId,
-    data.department,
-    data.year,
-    data.gender,
-    data.eventId,
-    data.eventName,
-    data.multipleEvents ? "Yes" : "No"
-  ]);
-  
-  return ContentService.createTextOutput(JSON.stringify({ success: true }))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-4. Deploy as a web app:
-   - Click Deploy > New deployment
-   - Select type: Web app
-   - Set "Who has access" to "Anyone"
-   - Deploy and copy the web app URL
-5. Replace 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL' in this file with that URL
-*/
+// Function to get event by ID
+export const getEventById = (eventId: string) => {
+  return eventsList.find(event => event.id === eventId);
+};

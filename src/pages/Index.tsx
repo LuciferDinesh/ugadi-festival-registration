@@ -1,25 +1,24 @@
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { CalendarDays, MapPin, School, Trophy, Flower, Sun, PartyPopper, Wind, Coffee, Leaf, Sparkles, Palmtree } from 'lucide-react';
+import { CalendarDays, MapPin, School, Flower, Sparkles, Palmtree, Leaf, Wind, Coffee, PartyPopper } from 'lucide-react';
 import Hero from '@/components/Hero';
-import RegistrationForm from '@/components/RegistrationForm';
 import UgadiElements from '@/components/UgadiElements';
+import EventsSection from '@/components/EventsSection';
 
 const Index = () => {
-  const formRef = useRef<HTMLDivElement>(null);
-
-  const scrollToForm = () => {
-    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   return (
     <div className="min-h-screen traditional-bg">
       {/* Traditional toran decoration at the top */}
       <div className="toran w-full h-4 bg-orange-50"></div>
       
       {/* Hero Section */}
-      <Hero onRegisterClick={scrollToForm} />
+      <Hero onRegisterClick={() => {
+        const eventsSection = document.getElementById('events-section');
+        if (eventsSection) {
+          eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }} />
       
       {/* Floating Ugadi Elements */}
       <UgadiElements />
@@ -40,7 +39,31 @@ const Index = () => {
             <p className="text-orange-800 text-xl">Happy Telugu New Year</p>
           </motion.div>
           
-          <div className="relative">
+          {/* Circular content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="glass p-6 rounded-xl shadow-lg max-w-2xl mx-auto"
+          >
+            <h3 className="text-xl font-bold text-orange-800 mb-4">CIRCULAR</h3>
+            <p className="text-gray-700 mb-4">
+              Ref: SCRRCOE/MBA/ Notice/24-25 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dt.24-03-2025
+            </p>
+            <div className="text-left mb-6">
+              <p className="mb-4">
+                Dear students, We would like to inform you that the MBA department is organizing the
+                following competitions at FED & MBA Block on the occasion of Ugadi-2025.
+              </p>
+              <p className="font-semibold">
+                We invite all the female students to participate in these competitions and make it grand success.
+              </p>
+            </div>
+            <p className="text-right">Thank you.</p>
+            <p className="text-right mt-2">HOD, MBA</p>
+          </motion.div>
+          
+          <div className="relative mt-12">
             {/* Decorative elements */}
             <motion.div 
               className="absolute -top-10 -left-10 text-yellow-600 hidden md:block"
@@ -72,75 +95,6 @@ const Index = () => {
             >
               <Palmtree className="w-16 h-16 opacity-30" />
             </motion.div>
-          
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-4xl mx-auto">
-              {/* Traditional symbols column */}
-              <motion.div 
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                className="leaf-decoration glass p-6 rounded-xl shadow-lg"
-              >
-                <h3 className="text-xl font-bold text-orange-800 mb-4">Traditional Symbols</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center bg-yellow-100 text-orange-600 mb-2">
-                      <Leaf className="w-8 h-8" />
-                    </div>
-                    <p className="text-orange-700 font-medium">Mango Leaves</p>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center bg-yellow-100 text-orange-600 mb-2">
-                      <Coffee className="w-8 h-8" />
-                    </div>
-                    <p className="text-orange-700 font-medium">Ugadi Pachadi</p>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center bg-yellow-100 text-orange-600 mb-2">
-                      <Sparkles className="w-8 h-8" />
-                    </div>
-                    <p className="text-orange-700 font-medium">Rangoli</p>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center bg-yellow-100 text-orange-600 mb-2">
-                      <Wind className="w-8 h-8" />
-                    </div>
-                    <p className="text-orange-700 font-medium">New Beginnings</p>
-                  </div>
-                </div>
-              </motion.div>
-              
-              {/* Ugadi Pachadi column */}
-              <motion.div 
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-                className="leaf-decoration glass p-6 rounded-xl shadow-lg"
-              >
-                <h3 className="text-xl font-bold text-orange-800 mb-4">Ugadi Pachadi</h3>
-                <p className="text-orange-700 mb-4">The six tastes of life symbolizing:</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="ugadi-sweet p-2 rounded-lg text-center text-sm font-medium text-yellow-800">
-                    Sweet (Jaggery) - Happiness
-                  </div>
-                  <div className="ugadi-sour p-2 rounded-lg text-center text-sm font-medium text-green-800">
-                    Sour (Tamarind) - Surprises
-                  </div>
-                  <div className="ugadi-salt p-2 rounded-lg text-center text-sm font-medium text-gray-800">
-                    Salt - Interest
-                  </div>
-                  <div className="ugadi-bitter p-2 rounded-lg text-center text-sm font-medium text-yellow-900">
-                    Bitter (Neem) - Difficulties
-                  </div>
-                  <div className="ugadi-spicy p-2 rounded-lg text-center text-sm font-medium text-red-800">
-                    Spicy (Pepper) - Challenges
-                  </div>
-                  <div className="ugadi-astringent p-2 rounded-lg text-center text-sm font-medium text-orange-800">
-                    Astringent (Unripe Mango) - Fear
-                  </div>
-                </div>
-              </motion.div>
-            </div>
           </div>
         </div>
         
@@ -174,25 +128,25 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="max-w-3xl mx-auto text-center mb-12"
           >
-            <span className="inline-block text-festival-blue font-medium mb-2">Celebrate With Us</span>
+            <span className="inline-block text-festival-pink font-medium mb-2">Celebrate With Us</span>
             <h2 className="text-3xl font-bold mb-4">Ugadi Festival Celebration</h2>
             <p className="text-gray-600">
               Ugadi marks the beginning of the Hindu lunar calendar and is celebrated with great enthusiasm. 
-              Join us for a day filled with traditional competitions, cultural performances, and festivity.
+              Join us for exciting competitions specially organized for female students.
             </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: <CalendarDays className="w-8 h-8 text-festival-blue" />,
-                title: "Event Date",
-                description: "April 9, 2024 starting at 10:00 AM"
+                icon: <CalendarDays className="w-8 h-8 text-festival-pink" />,
+                title: "Event Dates",
+                description: "March 26-28, 2025"
               },
               {
                 icon: <MapPin className="w-8 h-8 text-festival-red" />,
                 title: "Location",
-                description: "College Auditorium, Sir C.R. Reddy Campus"
+                description: "FED & MBA Block, Sir C.R. Reddy Campus"
               },
               {
                 icon: <School className="w-8 h-8 text-festival-green" />,
@@ -200,9 +154,9 @@ const Index = () => {
                 description: "Department of MBA, Sir C.R. Reddy College of Engineering"
               },
               {
-                icon: <Trophy className="w-8 h-8 text-festival-yellow" />,
-                title: "Competitions",
-                description: "Rangoli for female students, Tug of War for male students"
+                icon: <PartyPopper className="w-8 h-8 text-festival-yellow" />,
+                title: "Participants",
+                description: "Exclusively for female students"
               }
             ].map((item, index) => (
               <motion.div
@@ -230,165 +184,17 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Traditional Ugadi Section - enhanced with animations */}
-      <section className="py-12 bg-gradient-to-r from-yellow-50 to-orange-50 relative overflow-hidden">
-        <div className="absolute inset-0 kolam-pattern opacity-10"></div>
-        
-        {/* Animated decorative elements */}
-        <motion.div 
-          className="absolute top-10 left-10 text-orange-500 opacity-20"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-        >
-          <div className="w-40 h-40 border-4 border-dashed rounded-full"></div>
-        </motion.div>
-        
-        <motion.div 
-          className="absolute bottom-10 right-10 text-yellow-500 opacity-20"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        >
-          <div className="w-60 h-60 border-4 border-dashed rounded-full"></div>
-        </motion.div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-10">
-            <motion.h2 
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-2xl md:text-3xl font-bold text-orange-800 mb-3"
-            >
-              Traditional Ugadi Celebration
-            </motion.h2>
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="w-20 h-1 bg-orange-500 mx-auto mb-4"
-            />
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-orange-700 max-w-2xl mx-auto"
-            >
-              Experience the rich traditions of Ugadi, from the symbolism of the six tastes in Ugadi Pachadi 
-              to the decorative Rangoli patterns and mango leaf adorned homes.
-            </motion.p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Ugadi Pachadi",
-                description: "A special mixture of six tastes symbolizing the different emotions of life",
-                color: "from-yellow-400 to-yellow-300",
-                icon: <Coffee className="w-6 h-6" />
-              },
-              {
-                title: "Mango Leaves",
-                description: "Homes are decorated with mango leaves symbolizing prosperity",
-                color: "from-green-500 to-green-400",
-                icon: <Leaf className="w-6 h-6" />
-              },
-              {
-                title: "New Clothes",
-                description: "People wear new clothes and exchange gifts to welcome the new year",
-                color: "from-orange-500 to-orange-400",
-                icon: <PartyPopper className="w-6 h-6" />
-              }
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="rounded-lg overflow-hidden shadow-md"
-              >
-                <div className={`h-3 bg-gradient-to-r ${item.color}`}></div>
-                <div className="p-6 bg-white">
-                  <div className="flex items-center mb-3">
-                    <div className={`p-2 rounded-full bg-gradient-to-r ${item.color} text-white mr-3`}>
-                      {item.icon}
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
-                  </div>
-                  <p className="text-gray-600">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          {/* Additional traditional elements */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-12 glass p-6 rounded-xl max-w-3xl mx-auto"
-          >
-            <h3 className="text-xl font-bold text-center text-orange-800 mb-4">Ugadi Customs</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <Sun className="w-5 h-5 text-yellow-500" />
-                </div>
-                <div className="ml-3">
-                  <h4 className="font-medium text-orange-800">Early Morning Ritual</h4>
-                  <p className="text-sm text-gray-600">Traditional oil bath before sunrise</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <Flower className="w-5 h-5 text-pink-500" />
-                </div>
-                <div className="ml-3">
-                  <h4 className="font-medium text-orange-800">Temple Visits</h4>
-                  <p className="text-sm text-gray-600">Prayers for prosperity in the new year</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <Sparkles className="w-5 h-5 text-purple-500" />
-                </div>
-                <div className="ml-3">
-                  <h4 className="font-medium text-orange-800">Panchanga Sravanam</h4>
-                  <p className="text-sm text-gray-600">Listening to the yearly forecast</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <PartyPopper className="w-5 h-5 text-red-500" />
-                </div>
-                <div className="ml-3">
-                  <h4 className="font-medium text-orange-800">Festive Meals</h4>
-                  <p className="text-sm text-gray-600">Special dishes shared with family</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* Registration Form Section */}
-      <section ref={formRef} className="py-16 ugadi-bg">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <RegistrationForm />
-        </div>
-      </section>
+      {/* Events Section */}
+      <div id="events-section">
+        <EventsSection />
+      </div>
       
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h3 className="text-xl font-semibold mb-2">Ugadi Festival 2024</h3>
+              <h3 className="text-xl font-semibold mb-2">Ugadi Festival 2025</h3>
               <p className="text-gray-400 text-sm">Sir C.R. Reddy College of Engineering</p>
             </div>
             
@@ -400,7 +206,7 @@ const Index = () => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
-            <p>© 2024 Department of MBA, Sir C.R. Reddy College of Engineering. All rights reserved.</p>
+            <p>© 2025 Department of MBA, Sir C.R. Reddy College of Engineering. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -1,37 +1,42 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, PaintBucket, Check } from 'lucide-react';
+import { Scissors, Paintbrush, Utensils, Calendar, CheckCircle2 } from 'lucide-react';
 
 export interface EventType {
   id: string;
   name: string;
   description: string;
-  forGender: 'male' | 'female' | 'both';
-  icon: 'tug-of-war' | 'rangoli';
+  date: string;
+  time: string;
+  icon: 'braid' | 'mehandi' | 'anthakshari' | 'food' | 'rangoli';
+  googleFormLink: string;
 }
 
 interface EventCardProps {
   event: EventType;
-  isSelected: boolean;
-  onSelect: () => void;
-  multipleAllowed?: boolean;
+  onRegisterClick: (event: EventType) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect, multipleAllowed = false }) => {
-  const cardClasses = `relative flex flex-col p-6 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer card-hover ${
-    isSelected
-      ? 'glass border-2 border-festival-blue shadow-lg shadow-blue-500/20'
-      : 'glass border border-white/30 hover:border-festival-blue/50'
-  }`;
+const EventCard: React.FC<EventCardProps> = ({ event, onRegisterClick }) => {
+  const cardClasses = "relative flex flex-col p-6 rounded-xl overflow-hidden transition-all duration-300 cursor-pointer card-hover glass border border-white/30 hover:border-festival-pink/50";
 
-  const getIconColor = () => {
-    if (event.forGender === 'male') return 'text-festival-blue';
-    if (event.forGender === 'female') return 'text-festival-red';
-    return 'text-festival-green'; // For 'both' gender
+  const getEventIcon = () => {
+    switch(event.icon) {
+      case 'braid':
+        return <Scissors className="w-10 h-10" />;
+      case 'mehandi':
+        return <Paintbrush className="w-10 h-10" />;
+      case 'anthakshari':
+        return <CheckCircle2 className="w-10 h-10" />;
+      case 'food':
+        return <Utensils className="w-10 h-10" />;
+      case 'rangoli':
+        return <Paintbrush className="w-10 h-10" />;
+      default:
+        return <Calendar className="w-10 h-10" />;
+    }
   };
-  
-  const iconColor = getIconColor();
   
   return (
     <motion.div
@@ -39,44 +44,28 @@ const EventCard: React.FC<EventCardProps> = ({ event, isSelected, onSelect, mult
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4 }}
       className={cardClasses}
-      onClick={onSelect}
     >
-      {isSelected && (
-        <div className="absolute top-3 right-3 w-6 h-6 bg-festival-blue rounded-full flex items-center justify-center">
-          <Check className="w-4 h-4 text-white" />
-          <span className="absolute inset-0 rounded-full animate-ping bg-festival-blue/70"></span>
-        </div>
-      )}
-
-      <div className={`mb-4 text-3xl ${iconColor}`}>
-        {event.icon === 'tug-of-war' ? (
-          <Users className="w-10 h-10" />
-        ) : (
-          <PaintBucket className="w-10 h-10" />
-        )}
+      <div className="mb-4 text-3xl text-festival-pink">
+        {getEventIcon()}
       </div>
       
       <h3 className="text-xl font-semibold mb-2">{event.name}</h3>
       
       <p className="text-gray-600 text-sm mb-3">{event.description}</p>
       
-      <div className="mt-auto">
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-          event.forGender === 'male' 
-            ? 'bg-blue-100 text-blue-800' 
-            : event.forGender === 'female'
-              ? 'bg-red-100 text-red-800'
-              : 'bg-green-100 text-green-800'  // For 'both' gender
-        }`}>
-          For {event.forGender === 'male' ? 'Males' : event.forGender === 'female' ? 'Females' : 'All Students'}
-        </span>
-      </div>
-
-      {multipleAllowed && (
-        <div className="w-full text-center mt-2 text-xs text-gray-500">
-          {isSelected ? "Click to deselect" : "Click to select"}
+      <div className="mt-auto space-y-2">
+        <div className="flex items-center text-sm text-gray-600">
+          <Calendar className="w-4 h-4 mr-2" />
+          <span>{event.date} at {event.time}</span>
         </div>
-      )}
+        
+        <button 
+          onClick={() => onRegisterClick(event)}
+          className="w-full mt-4 py-2 px-4 bg-gradient-to-r from-pink-500 to-orange-400 text-white rounded-md hover:from-pink-600 hover:to-orange-500 transition-all"
+        >
+          Register Now
+        </button>
+      </div>
     </motion.div>
   );
 };
